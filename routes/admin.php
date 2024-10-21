@@ -13,7 +13,7 @@ Route::controller(AuthController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('logout', 'logout');
 });
 
-Route::middleware('auth:sanctum')->prefix('admin')->controller(ClassController::class)->group( function () {
+Route::middleware(['auth:sanctum','can:access-admin-route'])->prefix('admin')->controller(ClassController::class)->group( function () {
     Route::get("/classes", "index");
     Route::post("/classes", "store");
     Route::post("/classes/{id}", "update");
@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->controller(ClassController::
     Route::delete("/classes/{id}", "delete");
 });
 
-Route::middleware('auth:sanctum')->prefix('admin')->controller(UserController::class)->group(function () {
+Route::middleware(['auth:sanctum','can:access-admin-route'])->prefix('admin')->controller(UserController::class)->group(function () {
     Route::get("/{role}", "index");
     Route::post("/{role}", "store");
     Route::post("/{role}/{id}", "update");
